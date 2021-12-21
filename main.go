@@ -15,6 +15,7 @@ var game *tl.Game
 var border *Border
 var scoreText *tl.Text
 var isFullscreen *bool
+var digits []rune = []rune{}
 
 type endgameScreen struct {
 	*tl.BaseLevel
@@ -32,9 +33,10 @@ func (eg *endgameScreen) Tick(event tl.Event) {
 
 // IncreaseScore increases the score by the given amount and updates the
 // score text.
-func IncreaseScore(amount int) {
+func IncreaseScore(amount int, digit rune) {
 	score += amount
-	scoreText.SetText(fmt.Sprint(" Score: ", score, " "))
+	digits = append(digits, digit)
+	scoreText.SetText(fmt.Sprint(" Number: ", string(digits), " "))
 }
 
 // EndGame should be called when the game ends due to e.g. dying.
@@ -56,7 +58,7 @@ func EndGame() {
 	game.Screen().SetLevel(el)
 }
 
-func newMainLevel(isFullscreen *bool) tl.Level{
+func newMainLevel(isFullscreen *bool) tl.Level {
 
 	mainLevel := tl.NewBaseLevel(tl.Cell{
 		Bg: tl.ColorBlack,
@@ -71,12 +73,17 @@ func newMainLevel(isFullscreen *bool) tl.Level{
 	border = NewBorder(width, height)
 
 	snake := NewSnake()
-	food := NewFood()
+	var foods []*Food
+	for i := 0; i < 10; i++ {
+		food := NewFood(rune(fmt.Sprint(i)[0]))
+		foods = append(foods, food)
+		mainLevel.AddEntity(food)
+	}
+
 	scoreText = tl.NewText(0, 0, " Score: 0", tl.ColorBlack, tl.ColorBlue)
 
 	mainLevel.AddEntity(border)
 	mainLevel.AddEntity(snake)
-	mainLevel.AddEntity(food)
 	mainLevel.AddEntity(scoreText)
 	return mainLevel
 }

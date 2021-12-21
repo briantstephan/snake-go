@@ -17,6 +17,7 @@ type Snake struct {
 	body      []Coord
 	bodyLen   int
 	direction direction
+	timer     int
 }
 
 // NewSnake creates a new Snake with a default length and position.
@@ -32,6 +33,7 @@ func NewSnake() *Snake {
 	// where we're actively growing
 	s.bodyLen = len(s.body)
 	s.direction = right
+	s.timer = 0
 	return s
 }
 
@@ -96,6 +98,11 @@ func (s *Snake) Draw(screen *tl.Screen) {
 			Ch: 'o',
 		})
 	}
+
+	s.timer++
+	if s.timer%10 == 0 {
+		s.grow(1)
+	}
 }
 
 // Tick handles keypress events
@@ -149,15 +156,9 @@ func (s *Snake) Tick(event tl.Event) {
 // we're colliding with and handle it accordingly.
 func (s *Snake) Collide(collision tl.Physical) {
 	switch collision.(type) {
-	case *Food:
-		s.handleFoodCollision()
 	case *Border:
 		s.handleBorderCollision()
 	}
-}
-
-func (s *Snake) handleFoodCollision() {
-	s.grow(5)
 }
 
 func (s *Snake) handleBorderCollision() {

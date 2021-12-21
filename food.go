@@ -12,12 +12,14 @@ import (
 type Food struct {
 	*tl.Entity
 	coord Coord
+	value rune
 }
 
 // NewFood creates a new Food at a random position.
-func NewFood() *Food {
+func NewFood(value rune) *Food {
 	f := new(Food)
 	f.Entity = tl.NewEntity(1, 1, 1, 1)
+	f.value = value
 	f.moveToRandomPosition()
 	return f
 }
@@ -26,7 +28,7 @@ func NewFood() *Food {
 func (f *Food) Draw(screen *tl.Screen) {
 	screen.RenderCell(f.coord.x, f.coord.y, &tl.Cell{
 		Fg: tl.ColorRed,
-		Ch: '*',
+		Ch: f.value,
 	})
 }
 
@@ -59,7 +61,7 @@ func (f *Food) moveToRandomPosition() {
 
 func (f *Food) handleSnakeCollision() {
 	f.moveToRandomPosition()
-	IncreaseScore(5)
+	IncreaseScore(5, f.value)
 }
 
 func randInRange(min, max int) int {
