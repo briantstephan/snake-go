@@ -1,6 +1,4 @@
 # Snake
-[![Go Report Card](https://goreportcard.com/badge/github.com/mattkelly/snake-go)](https://goreportcard.com/report/github.com/mattkelly/snake-go)
-[![Build Status](https://travis-ci.org/mattkelly/snake-go.svg?branch=master)](https://travis-ci.org/mattkelly/snake-go)
 
 Bad UI concept that forces you to play snake in your terminal to enter a number. Built using [Termloop](https://github.com/JoelOtter/termloop).
 
