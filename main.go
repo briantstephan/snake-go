@@ -80,7 +80,7 @@ func newMainLevel(isFullscreen *bool) tl.Level {
 		mainLevel.AddEntity(food)
 	}
 
-	scoreText = tl.NewText(0, 0, " Score: 0", tl.ColorBlack, tl.ColorBlue)
+	scoreText = tl.NewText(0, 0, " Number: ", tl.ColorBlack, tl.ColorBlue)
 
 	mainLevel.AddEntity(border)
 	mainLevel.AddEntity(snake)
